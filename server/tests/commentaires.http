@@ -1,0 +1,32 @@
+### get all commentaires
+POST http://localhost:5000/commentaire HTTP/1.1
+content-type: application/json
+
+{
+  "contenu": "first Commentaire",
+  "articleId": "3",
+  "email": "yazid.hakimi.2002@gmail.com"
+}
+
+### get all commentaires
+
+GET http://localhost:5000/commentaire HTTP/1.1
+
+### get all commentaires
+
+GET http://localhost:5000/commentaire/1 HTTP/1.1
+
+### get all commentaires
+
+
+PATCH http://localhost:5000/commentaire/1 HTTP/1.1
+content-type: application/json
+
+{
+  "contenu": "first Commentaire edited",
+  "articleId": "3",
+  "email": "yazid.hakimi.2002@gmail.com"
+}
+### get all commentaires
+
+DELETE http://localhost:5000/commentaire/1 HTTP/1.1
