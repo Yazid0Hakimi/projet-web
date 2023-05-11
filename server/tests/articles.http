@@ -1,0 +1,31 @@
+POST  http://localhost:5000/article HTTP/1.1
+content-type: application/json
+
+{
+"contenu"       :"first Article",
+"titre"         :"article 2 ",
+"image"         :"",
+"utilisateurId" :"1",
+"published"     :"true"
+
+}
+
+### get users
+GET   http://localhost:5000/article HTTP/1.1
+### get user
+GET   http://localhost:5000/article/4 HTTP/1.1
+
+### modify user
+patch   http://localhost:5000/article/1 HTTP/1.1
+content-type: application/json
+
+{
+"contenu"       :"first Article",
+"titre"         :"article 2 modified ",
+"image"         :"",
+"utilisateurId" :"1",
+"published"     :"true"
+    }
+
+### delete user
+DELETE   http://localhost:5000/article/1 HTTP/1.1

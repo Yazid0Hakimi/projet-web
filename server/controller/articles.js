@@ -5,57 +5,64 @@ const prisma = new PrismaClient();
 /* GET Articles. */
 
 async function P_getArticles(res) {
-  const allArticles = await prisma.Utilisateur.findMany();
+  const allArticles = await prisma.Article.findMany();
   res.send(allArticles);
 }
 
-async function P_getArticles(res, _id) {
-  const result = await prisma.Utilisateur.findUnique({
+async function P_getArticle(req, res) {
+  const id = req.params.id;
+
+  const result = await prisma.Article.findUnique({
     where: {
-      id: parseInt(_id),
+      id: parseInt(id),
     },
   });
   res.send(result);
 }
 
-async function P_ModifyArticles(res, req) {
-  const { id, nom, email, password, role } = req.body;
-
-  const user = await prisma.Utilisateur.update({
+async function P_ModifyArticle(req, res) {
+  const { utilisateurId, titre, contenu, image, published } = req.body;
+const id = req.params.id;
+  const user = await prisma.Article.update({
     where: {
       id: parseInt(id),
     },
-    data: {//////////////////////////////////
-      email: email,
-      nom: nom,
-      password: password,
-      role: role,
+    data: {
+      titre: titre,
+      contenu: contenu,
+      image: image,
+      utilisateurId: parseInt(utilisateurId),
+      published: Boolean(published),
     },
   });
   res.send(user);
 }
 
-async function P_createArticles(res, req) {
-  const { nom, email, password, role } = req.body;
-  const user = await prisma.Utilisateur.create({
+async function P_createArticle(req, res) {
+  const { utilisateurId, titre, contenu, image, published } = req.body;
+  const article = await prisma.Article.create({
     data: {
-      email: email,
-      nom: nom,
-      password: password,
-      role: role,
+      titre: titre,
+      contenu: contenu,
+      image: image,
+      utilisateurId: parseInt(utilisateurId),
+      published: Boolean(published),
     },
   });
-  res.status(201).send("user created successfully");
+  res.status(201).send("Article created successfully");
 }
 
-async function P_deleteArticles(res, _id) {
-  const result = await prisma.Utilisateur.delete({
-    where: { id: 3 },
+async function P_deleteArticle(req, res) {
+  const id = req.params.id;
+  const result = await prisma.Article.delete({
+    where: { id: parseInt(id) },
   });
   res.send(result);
 }
 
-const getArticles = async (req, res, next) => {
+/* prisma functions */
+
+const getArticles = async (req,res) => {
   P_getArticles(res)
     .then(async () => {
       await prisma.$disconnect();
@@ -69,7 +76,7 @@ const getArticles = async (req, res, next) => {
 
 /* GET user with :id. */
 const getArticle = async (req, res, next) => {
-  P_getArticle(res, req.query.id)
+  P_getArticle(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -81,8 +88,8 @@ const getArticle = async (req, res, next) => {
 };
 
 /* create users. */
-const createUser = async (req, res, next) => {
-  P_createUser(res, req)
+const createArticle = async (req, res) => {
+  P_createArticle(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -94,8 +101,8 @@ const createUser = async (req, res, next) => {
 };
 
 /* modify users. */
-const ModifyUser = async (req, res, next) => {
-  P_ModifyUser(res, req)
+const ModifyArticle = async (req, res, next) => {
+  P_ModifyArticle(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -107,8 +114,8 @@ const ModifyUser = async (req, res, next) => {
 };
 
 /* delete users. */
-const deleteUser = async (req, res, next) => {
-  P_deleteUser(res, req)
+const deleteArticle = async (req, res, next) => {
+  P_deleteArticle(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -120,9 +127,9 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  getUsers,
-  getUser,
-  createUser,
-  ModifyUser,
-  deleteUser,
+  getArticles,
+  getArticle,
+  createArticle,
+  ModifyArticle,
+  deleteArticle,
 };

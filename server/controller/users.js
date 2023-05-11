@@ -2,24 +2,26 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-/* GET users. */
+/* Prisma functions */
 
 async function P_getUsers(res) {
   const allUsers = await prisma.Utilisateur.findMany();
   res.send(allUsers);
 }
 
-async function P_getUser(res, _id) {
+async function P_getUser(req, res) {
+  const id = req.params.id;
   const result = await prisma.Utilisateur.findUnique({
     where: {
-      id: parseInt(_id),
+      id: parseInt(id),
     },
   });
   res.send(result);
 }
 
-async function P_ModifyUser(res,req) {
-  const { id, nom, email, password, role } = req.body;
+async function P_ModifyUser(req, res) {
+  const { nom, email, password, role } = req.body;
+  const id = req.params.id;
 
   const user = await prisma.Utilisateur.update({
     where: {
@@ -35,7 +37,7 @@ async function P_ModifyUser(res,req) {
   res.send(user);
 }
 
-async function P_createUser(res, req) {
+async function P_createUser(req, res) {
   const { nom, email, password, role } = req.body;
   const user = await prisma.Utilisateur.create({
     data: {
@@ -45,17 +47,20 @@ async function P_createUser(res, req) {
       role: role,
     },
   });
-  res.status(201).send("user created successfully");
+  res.status(201).send({ msg: "user created successfully", user: user });
 }
 
-async function P_deleteUser(res, _id) {
+async function P_deleteUser(req,res) {
+  const _id = req.params.id;
   const result = await prisma.Utilisateur.delete({
-    where: { id: 3 },
+    where: { id: parseInt(_id) },
   });
   res.send(result);
 }
 
-const getUsers = async (req, res, next) => {
+//* end of prisma functions *//
+
+const getUsers = async (req, res) => {
   P_getUsers(res)
     .then(async () => {
       await prisma.$disconnect();
@@ -68,8 +73,8 @@ const getUsers = async (req, res, next) => {
 };
 
 /* GET user with :id. */
-const getUser = async (req, res, next) => {
-  P_getUser(res, req.query.id)
+const getUser = async (req, res) => {
+  P_getUser(req,res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -82,7 +87,7 @@ const getUser = async (req, res, next) => {
 
 /* create users. */
 const createUser = async (req, res, next) => {
-  P_createUser(res, req)
+  P_createUser(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -95,19 +100,20 @@ const createUser = async (req, res, next) => {
 
 /* modify users. */
 const ModifyUser = async (req, res, next) => {
- P_ModifyUser(res, req)
-   .then(async () => {
-     await prisma.$disconnect();
-   })
-   .catch(async (e) => {
-     console.error(e);
-     await prisma.$disconnect();
-     process.exit(1);
-   });};
+  P_ModifyUser(req, res)
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+};
 
 /* delete users. */
-const deleteUser = async (req, res, next) => {
-  P_deleteUser(res, req)
+const deleteUser = async (req, res) => {
+  P_deleteUser(req,res)
     .then(async () => {
       await prisma.$disconnect();
     })

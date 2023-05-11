@@ -10,18 +10,11 @@ const {
 const router = express.Router();
 
 // user routes
-router.get("/getUser", getUser);
-router.get("/getUsers", getUsers);
-router.post("/createUser", createUser);
-router.patch("/modifyUser", ModifyUser);
-router.delete("/deleteUser", deleteUser);
-
-// // article routes
-// router.get("/user", getUser);
-// router.get("/user", getUsers);
-// router.post("/user", ModifyUser);
-// router.patch("/user", createUser);
-// router.delete("/user", deleteUser);
+router.get("/", getUsers);
+router.get("/:id", getUser);
+router.post("/", createUser);
+router.patch("/:id", ModifyUser);
+router.delete("/:id", deleteUser);
 
 // // categories routes
 // router.get("/user", getUser);

@@ -1,0 +1,28 @@
+POST  http://localhost:5000/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "email": "alice4@prisma.io",
+    "nom": "Alice",
+    "password": "password123",
+    "role": "AUTHOR"
+}
+
+### get users
+GET   http://localhost:5000/users/ HTTP/1.1
+### get user
+GET   http://localhost:5000/users/5 HTTP/1.1
+
+### modify user
+patch   http://localhost:5000/Users/5 HTTP/1.1
+content-type: application/json
+
+{
+    "nom": "modified",
+    "email": "aaaaaaaaa@prisma.io",
+    "password": "password123",
+    "role": "AUTHOR"
+    }
+
+### delete user
+DELETE   http://localhost:5000/users/5 HTTP/1.1
