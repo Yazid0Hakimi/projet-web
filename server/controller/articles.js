@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 
 /* GET Articles. */
 
-async function P_getArticles(res) {
-  const allArticles = await prisma.Article.findMany();
+async function P_getArticles(res, take,skip) {
+  const allArticles = await prisma.Article.findMany({ skip: parseInt (skip),take: parseInt (take) });
   res.send(allArticles);
 }
 
@@ -63,7 +63,8 @@ async function P_deleteArticle(req, res) {
 /* prisma functions */
 
 const getArticles = async (req,res) => {
-  P_getArticles(res)
+  const {take , skip} = req.query;
+  P_getArticles(res,take,skip)
     .then(async () => {
       await prisma.$disconnect();
     })

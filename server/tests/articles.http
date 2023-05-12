@@ -10,12 +10,13 @@ content-type: application/json
 
 }
 
-### get users
-GET   http://localhost:5000/article HTTP/1.1
-### get user
+### get articles with take and skip 
+GET   http://localhost:5000/article?&take=10&skip=10 HTTP/1.1
+
+### get onr article
 GET   http://localhost:5000/article/4 HTTP/1.1
 
-### modify user
+### modify article
 patch   http://localhost:5000/article/1 HTTP/1.1
 content-type: application/json
 
@@ -27,5 +28,5 @@ content-type: application/json
 "published"     :"true"
     }
 
-### delete user
+### delete article
 DELETE   http://localhost:5000/article/1 HTTP/1.1

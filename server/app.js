@@ -5,10 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var ArticleRouter = require("./routes/articles");
-var commentaireRouter = require("./routes/commentaire");
-var categorieRouter = require("./routes/categorie");
+
+// crud routes
+var usersRouter = require('./routes/crud/users');
+var ArticleRouter = require("./routes/crud/articles");
+var commentaireRouter = require("./routes/crud/commentaire");
+var categorieRouter = require("./routes/crud/categorie");
 
 var app = express();
 

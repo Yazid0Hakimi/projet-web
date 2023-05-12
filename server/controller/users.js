@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
 
@@ -39,18 +40,24 @@ async function P_ModifyUser(req, res) {
 
 async function P_createUser(req, res) {
   const { nom, email, password, role } = req.body;
+  const salt = await bcrypt.genSalt();
+
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, salt);
+
   const user = await prisma.Utilisateur.create({
     data: {
       email: email,
       nom: nom,
-      password: password,
+      password: hashedPassword,
       role: role,
     },
   });
+
   res.status(201).send({ msg: "user created successfully", user: user });
 }
 
-async function P_deleteUser(req,res) {
+async function P_deleteUser(req, res) {
   const _id = req.params.id;
   const result = await prisma.Utilisateur.delete({
     where: { id: parseInt(_id) },
@@ -74,7 +81,7 @@ const getUsers = async (req, res) => {
 
 /* GET user with :id. */
 const getUser = async (req, res) => {
-  P_getUser(req,res)
+  P_getUser(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -113,7 +120,7 @@ const ModifyUser = async (req, res, next) => {
 
 /* delete users. */
 const deleteUser = async (req, res) => {
-  P_deleteUser(req,res)
+  P_deleteUser(req, res)
     .then(async () => {
       await prisma.$disconnect();
     })
