@@ -49,7 +49,7 @@ async function P_createUser(req, res) {
     data: {
       email: email,
       nom: nom,
-      password: hashedPassword,
+      hashedPassword: hashedPassword,
       role: role,
     },
   });
