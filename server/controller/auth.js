@@ -28,11 +28,14 @@ const login = async (req, res) => {
     } // correct password
     else {
       delete UserData.password;
-      const token = jwt.sign({ id: UserData._id }, process.env.SECRET_TOKEN);
+      const token = jwt.sign(
+        { id: UserData._id },
+        process.env.ACCESS_TOKEN_SECRET
+      );
       res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "lax",
         maxAge: 3600000,
       });
       res.status(200).json({ user: UserData });
