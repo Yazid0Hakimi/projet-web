@@ -53,7 +53,7 @@ async function P_createUser(req, res) {
       role: role,
     },
   });
-
+// const token = jwt.sign........... to create and send the Token 
   res.status(201).send({ msg: "user created successfully", user: user });
 }
 

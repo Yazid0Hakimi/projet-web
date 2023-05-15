@@ -64,6 +64,7 @@ async function P_deleteArticle(req, res) {
 
 const getArticles = async (req,res) => {
   const {take , skip} = req.query;
+  console.log("here");
   P_getArticles(res,take,skip)
     .then(async () => {
       await prisma.$disconnect();

@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const bcrypt= require("bcrypt");
+const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
+require("dotenv").config();
 
 const login = async (req, res) => {
   try {
@@ -15,22 +16,30 @@ const login = async (req, res) => {
     // no user found
     if (!UserData) {
       res.status(401).json({ error: "Invalid email or password" });
+      return;
     }
     // check if password matches
     // note that the order in password and hashedPassword are important !!
     const isMatched = await bcrypt.compare(password, UserData.hashedPassword);
     // incorrect password
-    if (!isMatched)
+    if (!isMatched) {
       res.status(401).json({ error: "Invalid email or password" });
-    // correct password
+      return;
+    } // correct password
     else {
       delete UserData.password;
       const token = jwt.sign({ id: UserData._id }, process.env.SECRET_TOKEN);
-      res.status(200).json({ UserData, token });
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 3600000,
+      });
+      res.status(200).json({ user: UserData });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send({ error: err.message +"her"});
+    res.status(500).send({ error: err.message + "her" });
   }
 };
 
