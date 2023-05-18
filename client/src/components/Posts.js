@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import Blog from "../components/Blog";
-import Grid from "@mui/material/Grid" 
+import Post from "../components/Post";
+import Grid from "@mui/material/Grid";
 const Posts = () => {
   const [posts, setPosts] = useState();
 
@@ -10,6 +10,7 @@ const Posts = () => {
       .then((response) => response.json())
       .then((responseData) => {
         setPosts(responseData);
+        // console.log(posts);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
@@ -22,13 +23,17 @@ const Posts = () => {
 
   return (
     <>
-    Posts
-      <Grid container spacing={2}>
+      <Grid
+        container
+        sx={{ marginLeft: "80px", marginTop: "20px" }}
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2} // Adjust the spacing value to add vertical spacing between elements
+      >
         {posts.map((post) => (
-          <Grid item key={post.id} xs={12} sm={6} md={4} lg={3}>
-            {/* <Blog data={post} /> */}
-
-            gg
+          <Grid item key={post.id} lg={12}>
+            <Post data={post} />
           </Grid>
         ))}
       </Grid>

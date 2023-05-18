@@ -1,27 +1,29 @@
-  import React from "react";
-  import NarBar from "./NarBar";
-  import Posts from "../pages/Index";
-  import Box from "@mui/material/Box";
+import React from "react";
+import SideBar from "./SideBar";
+import Posts from "../pages/Index";
+import Box from "@mui/material/Box";
+import PostContainer from "./PostContainer";
 
-  const Content = () => {
-    return (
-      <>
-        <Box
-          sx={{
-            // Width: "100vw",
-            minHeight: "80vh",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          <NarBar />
+const Content = () => {
+  return (
+    <>
+      <Box
+        sx={{
+          Width: "100vw",
+          minHeight: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "row",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        <PostContainer />
 
-        </Box>
-      </>
-    );
-  };
+        <SideBar />
+      </Box>
+    </>
+  );
+};
 
-  export default Content;
+export default Content;

@@ -60,6 +60,26 @@ async function P_deleteArticle(req, res) {
   res.send(result);
 }
 
+async function Articles_data (req, res)  {
+  try {
+    const articles = await prisma.Article.findMany({
+      include: {
+        commentaires: true,
+        utilisateur: {
+          select: {
+            nom: true,
+          },
+        },
+      },
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 /* prisma functions */
 
 const getArticles = async (req,res) => {
@@ -127,6 +147,17 @@ const deleteArticle = async (req, res, next) => {
       process.exit(1);
     });
 };
+const __Articles_data = async (req, res, next) => {
+  Articles_data(req, res)
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+};
 
 module.exports = {
   getArticles,
@@ -134,4 +165,5 @@ module.exports = {
   createArticle,
   ModifyArticle,
   deleteArticle,
+  __Articles_data,
 };

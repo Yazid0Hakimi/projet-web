@@ -18,7 +18,7 @@ const SideBar = () => {
      console.log(category);
    };
   return (
-    <Box display="flex" flex={1} >
+    <Box display="flex" flex={2} sx={{ backgroundColor:"blue" }}>
       <ul
         style={{
           listStyleType: "none",
@@ -29,14 +29,14 @@ const SideBar = () => {
           justifyContent: "center",
         }}
       >
-        {categories.map((category) => (
+        {/* {categories.map((category) => (
           <li
             key={category.id}
             onClick={() => handleCategoryClick(category)}
           >
             {category.nom}
           </li>
-        ))}
+        ))} */}
       </ul>
     </Box>
   );
