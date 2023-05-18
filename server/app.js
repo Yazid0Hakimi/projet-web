@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 
 app.use("/users", usersRouter);
-app.use("/article", verifyAccessToken, ArticleRouter);
+app.use("/article", ArticleRouter);
 app.use("/commentaire", commentaireRouter);
 app.use("/categorie", categorieRouter);
 

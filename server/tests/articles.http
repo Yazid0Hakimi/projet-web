@@ -11,7 +11,7 @@ content-type: application/json
 }
 
 ### get articles with take and skip 
-GET   http://localhost:5000/article?&take=5&skip=1 HTTP/1.1
+GET   http://localhost:5000/article?&take=10&skip=1 HTTP/1.1
 
 ### get onr article
 GET   http://localhost:5000/article/4 HTTP/1.1

@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Container, Typography, Stack } from "@mui/material";
+import { TextField, Button, Container, Typography, Stack, Box } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
+import Header from "../components/Header";
+
 
 export default function App() {
   const [pageType, setPageType] = useState("Login");
@@ -15,13 +17,17 @@ export default function App() {
   let isLogin = pageType === "Register";
 
   return (
-    <div>
+    <>
+    <Header/>
+     <Box sx={{ marginTop:"70px" }}>
       {isLogin ? (
         <Register handlePageTypeChange={handlePageTypeChange} />
       ) : (
         <Login handlePageTypeChange={handlePageTypeChange} />
       )}
-    </div>
+      
+     </Box>
+    </>
   );
 }
 
@@ -55,6 +61,9 @@ function Login({ handlePageTypeChange }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Container maxWidth="sm">
+        <Typography color="primary" sx={{ fontSize: "2rem" }}>
+          Login
+        </Typography>
         <TextField
           name="email"
           label="Email"
@@ -123,6 +132,9 @@ function Register({ handlePageTypeChange }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Container maxWidth="sm">
+        <Typography color="primary" sx={{ fontSize: "2rem"  }}>
+          Register
+        </Typography>
         <TextField
           name="lastName"
           label="Last Name"
