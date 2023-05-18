@@ -19,8 +19,7 @@ const Content = () => {
         }}
       >
         <PostContainer />
-
-        <SideBar />
+        <SideBar        />
       </Box>
     </>
   );

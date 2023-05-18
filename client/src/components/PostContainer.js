@@ -10,9 +10,12 @@ const PostContainer = () => {
       <Box display="flex" flex={6} flexDirection="column">
         <Typography
           sx={{
-            fontSize: "calc(1.475rem + 2.7vw)",
+            marginTop:"10px",
+            marginLeft:"15px",
+            fontSize: "calc(0.475rem + 2.7vw)",
             fontWeight: 300,
             lineHeight: 1.2,
+            color: "black",
           }}
         >
           Articles

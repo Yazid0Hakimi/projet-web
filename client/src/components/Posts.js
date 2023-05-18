@@ -6,11 +6,11 @@ const Posts = () => {
 
   useEffect(() => {
     // Fetch posts from API
-    fetch("http://localhost:5000/article?&take=10&skip=1") // Replace with your API endpoint
+    fetch("http://localhost:5000/article/data") // Replace with your API endpoint
       .then((response) => response.json())
       .then((responseData) => {
         setPosts(responseData);
-        // console.log(posts);
+        console.log(posts);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);

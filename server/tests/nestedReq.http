@@ -1,2 +1,2 @@
-GET   http://localhost:5000/article/data HTTP/1.1
+GET   http://localhost:5000/artic   le/data HTTP/1.1
 

@@ -64,8 +64,17 @@ async function Articles_data (req, res)  {
   try {
     const articles = await prisma.Article.findMany({
       include: {
-        commentaires: true,
+        commentaires: {
+          select: {
+            contenu: true,
+          },
+        },
         utilisateur: {
+          select: {
+            nom: true,
+          },
+        },
+        categories: {
           select: {
             nom: true,
           },
