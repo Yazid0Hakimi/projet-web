@@ -15,7 +15,7 @@ const login = async (req, res) => {
     });
     // no user found
     if (!UserData) {
-      res.status(401).json({ error: "Invalid email or password" });
+      res.status(401).json({ error: "Inxxvalid email or password" });
       return;
     }
     // check if password matches
@@ -23,7 +23,7 @@ const login = async (req, res) => {
     const isMatched = await bcrypt.compare(password, UserData.hashedPassword);
     // incorrect password
     if (!isMatched) {
-      res.status(401).json({ error: "Invalid email or password" });
+      res.status(401).json({ error: "Invaxxlid email or password" });
       return;
     } // correct password
     else {

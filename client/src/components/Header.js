@@ -10,9 +10,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
 import BookIcon from "@mui/icons-material/Book";
+import {useSelector} from "react-redux"
 
 const Header = () => {
-  let val = "logedIn" === "logedout";
+  let val = useSelector((state) => state.isLogged.isLogged);
+  console.log(val)
+  // let val = "logedIn" === "logedout";
      return (
        <AppBar position="static">
          <Container maxWidth="xl" sx={{ width: "95vw", height: "10vh" }}>

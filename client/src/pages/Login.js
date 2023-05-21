@@ -1,16 +1,25 @@
 import { useForm } from "react-hook-form";
-import { TextField, Button, Container, Typography, Stack, Box } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Stack,
+  Box,
+} from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
 import Header from "../components/Header";
-
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../actions";
 
 export default function App() {
   const [pageType, setPageType] = useState("Login");
+  // const isLogged = useSelector((state) => state.isLogged);
+
+  const isLogged = useSelector((state) => state.isSignedUp);
 
   const handlePageTypeChange = (newPageType) => {
-    console.log("ggg");
-    console.log(newPageType);
     setPageType(newPageType);
   };
 
@@ -18,45 +27,48 @@ export default function App() {
 
   return (
     <>
-    <Header/>
-     <Box sx={{ marginTop:"70px" }}>
-      {isLogin ? (
-        <Register handlePageTypeChange={handlePageTypeChange} />
-      ) : (
-        <Login handlePageTypeChange={handlePageTypeChange} />
-      )}
-      
-     </Box>
+      <Header />
+      <Box sx={{ marginTop: "70px" }}>
+        {isLogin ? (
+          <div>
+            {isLogged}
+            <Register handlePageTypeChange={handlePageTypeChange} />
+          </div>
+        ) : (
+          <Login handlePageTypeChange={handlePageTypeChange} />
+        )}
+      </Box>
     </>
   );
 }
 
 function Login({ handlePageTypeChange }) {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const postData = async (data) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/auth",
-        JSON.stringify(data),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,  
-        }
-      );
-      console.log(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+  const Login = async (data) => {
+    await axios
+      .post("http://localhost:5000/auth/", JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(signUp());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const onSubmit = (data) => postData(data);
+  const onSubmit = (data) => Login(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,7 +144,7 @@ function Register({ handlePageTypeChange }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Container maxWidth="sm">
-        <Typography color="primary" sx={{ fontSize: "2rem"  }}>
+        <Typography color="primary" sx={{ fontSize: "2rem" }}>
           Register
         </Typography>
         <TextField

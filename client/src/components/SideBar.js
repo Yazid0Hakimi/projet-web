@@ -41,7 +41,6 @@ const CategoriesCard = () => {
   return (
     <Card
       sx={{
-        position:"sticky",
         maxWidth: 345,
         height: "300px",
         borderRadius: "5",
