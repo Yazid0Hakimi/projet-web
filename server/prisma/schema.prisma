@@ -17,7 +17,7 @@ model Utilisateur {
   email     String    @unique
   password  String?
   hashedPassword  String
-  role      Role
+  role      Role @default(AUTHOR)
   articles  Article[]
   createdAt DateTime  @default(now()) @updatedAt
   updatedAt DateTime  @default(now()) @updatedAt
@@ -69,5 +69,5 @@ model ArticleCategorie {
 // Définition du type énuméré Role
 enum Role {
   ADMIN
-  AUTHOR
+  AUTHOR 
 }

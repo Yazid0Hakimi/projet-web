@@ -6,6 +6,7 @@ const {
   ModifyArticle,
   deleteArticle,
   __Articles_data,
+  __UserArticles,
 } = require("../../controller/articles");
 
 const router = express.Router();
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.get("/data", __Articles_data);
 router.get("/", getArticles);
+router.get("/user/:id", __UserArticles);
 router.post("/", createArticle);
 router.get("/:id", getArticle);
 router.patch("/:id", ModifyArticle);

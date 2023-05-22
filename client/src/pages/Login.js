@@ -15,7 +15,6 @@ import { signUp } from "../actions";
 
 export default function App() {
   const [pageType, setPageType] = useState("Login");
-  // const isLogged = useSelector((state) => state.isLogged);
 
   const isLogged = useSelector((state) => state.isSignedUp);
 
@@ -49,23 +48,30 @@ function Login({ handlePageTypeChange }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
+  const [loginError, setLoginError] = useState(false); // State for login error
+
   const Login = async (data) => {
-    await axios
-      .post("http://localhost:5000/auth/", JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data);
-        dispatch(signUp());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/auth/",
+        JSON.stringify(data),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(res.data);
+      dispatch(signUp());
+    } catch (err) {
+      console.log(err);
+      setLoginError(true); // Set login error state to true
+      reset(); // Reset the form on wrong credentials
+    }
   };
 
   const onSubmit = (data) => Login(data);
@@ -95,7 +101,17 @@ function Login({ handlePageTypeChange }) {
           fullWidth
           margin="normal"
         />
-        {errors.exampleRequired && <span>This field is required</span>}
+        {errors.exampleRequired && (
+          <Typography variant="body2" color="error">
+            This field is required
+          </Typography>
+        )}
+
+        {loginError && (
+          <Typography variant="body2" color="error" sx={{ marginTop: "10px" }}>
+            Wrong credentials. Please try again.
+          </Typography>
+        )}
 
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Button variant="contained" color="primary" type="submit">
@@ -120,23 +136,24 @@ function Register({ handlePageTypeChange }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const postData = async (data) => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/article?&take=80&skip=10",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log(data);
+    await axios
+      .post("http://localhost:5000/users/", JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onSubmit = (data) => postData(data);
@@ -148,19 +165,20 @@ function Register({ handlePageTypeChange }) {
           Register
         </Typography>
         <TextField
-          name="lastName"
-          label="Last Name"
+          name="nom"
+          label="Name"
           fullWidth
           defaultValue=""
-          {...register("Name")}
+          {...register("nom")}
           margin="normal"
         />
 
         <TextField
           name="email"
           label="Email"
+          type="email"
           defaultValue=""
-          {...register("Email")}
+          {...register("email")}
           fullWidth
           margin="normal"
         />
@@ -183,7 +201,11 @@ function Register({ handlePageTypeChange }) {
           fullWidth
           margin="normal"
         />
-        {errors.exampleRequired && <span>This field is required</span>}
+        {errors.exampleRequired && (
+          <Typography variant="body2" color="error">
+            This field is required
+          </Typography>
+        )}
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Button variant="contained" color="primary" type="submit">
             Register

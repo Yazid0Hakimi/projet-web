@@ -4,8 +4,11 @@ const prisma = new PrismaClient();
 
 /* GET Articles. */
 
-async function P_getArticles(res, take,skip) {
-  const allArticles = await prisma.Article.findMany({ skip: parseInt (skip),take: parseInt (take) });
+async function P_getArticles(res, take, skip) {
+  const allArticles = await prisma.Article.findMany({
+    skip: parseInt(skip),
+    take: parseInt(take),
+  });
   res.send(allArticles);
 }
 
@@ -22,7 +25,7 @@ async function P_getArticle(req, res) {
 
 async function P_ModifyArticle(req, res) {
   const { utilisateurId, titre, contenu, image, published } = req.body;
-const id = req.params.id;
+  const id = req.params.id;
   const user = await prisma.Article.update({
     where: {
       id: parseInt(id),
@@ -60,9 +63,12 @@ async function P_deleteArticle(req, res) {
   res.send(result);
 }
 
-async function Articles_data (req, res)  {
+
+async function Articles_data(res, take, skip) {
   try {
     const articles = await prisma.Article.findMany({
+      skip: parseInt(skip),
+      take: parseInt(take),
       include: {
         commentaires: {
           select: {
@@ -87,14 +93,31 @@ async function Articles_data (req, res)  {
     console.error("Error fetching articles:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+}
 
+// async function UserArticles(res, take, skip , id) {
+
+//   try {
+//     const articles = await prisma.Article.findMany({
+//       skip: parseInt(skip),
+//       take: parseInt(take),
+//       where: {
+//         utilisateurId: parseInt(id),
+//       },
+//     });
+
+//     res.json(articles);
+//   } catch (error) {
+//     console.error("Error fetching articles:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// }
 /* prisma functions */
 
-const getArticles = async (req,res) => {
-  const {take , skip} = req.query;
+const getArticles = async (req, res) => {
+  const { take, skip } = req.query;
   console.log("here");
-  P_getArticles(res,take,skip)
+  P_getArticles(res, take, skip)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -117,6 +140,7 @@ const getArticle = async (req, res, next) => {
       process.exit(1);
     });
 };
+
 
 /* create users. */
 const createArticle = async (req, res) => {
@@ -157,7 +181,9 @@ const deleteArticle = async (req, res, next) => {
     });
 };
 const __Articles_data = async (req, res, next) => {
-  Articles_data(req, res)
+  const { take, skip } = req.query;
+
+  Articles_data(res, take, skip)
     .then(async () => {
       await prisma.$disconnect();
     })
@@ -168,6 +194,40 @@ const __Articles_data = async (req, res, next) => {
     });
 };
 
+async function UserArticles(res, take, skip, id) {
+  try {
+    const articles = await prisma.Article.findMany({
+      skip: parseInt(skip),
+      take: parseInt(take),
+      where: {
+        utilisateurId: parseInt(id),
+      },
+    });
+
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+const __UserArticles = async (req, res, next) => {
+  const { take, skip } = req.query;
+  const { id } = req.params;
+
+  UserArticles(res, take, skip, id)
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+};
+
+
+
 module.exports = {
   getArticles,
   getArticle,
@@ -175,4 +235,5 @@ module.exports = {
   ModifyArticle,
   deleteArticle,
   __Articles_data,
+  __UserArticles,
 };

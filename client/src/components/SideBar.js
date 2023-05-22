@@ -13,6 +13,12 @@ const Categorie = ({ nom, onClick }) => (
       cursor: "pointer",
     }}
     onClick={() => onClick(nom)}
+    onMouseEnter={(event) => {
+      event.target.style.backgroundColor = "#c0c0c0";
+    }}
+    onMouseLeave={(event) => {
+      event.target.style.backgroundColor = "#e0e0e0";
+    }}
   >
     <Typography variant="subtitle2" color="text.primary">
       {nom}
@@ -36,15 +42,20 @@ const CategoriesCard = () => {
 
   const handleCategoryClick = (category) => {
     console.log("Clicked category:", category);
+
   };
 
   return (
     <Card
-      sx={{
+          sx={{
         maxWidth: 345,
         height: "300px",
         borderRadius: "5",
-        margin: "40px 3px 0 0 ",
+        margin: "100px 3px 0 0 ",
+        position: "sticky",
+        top: "10px", // Adjust the desired top position
+        right: "0px", // Adjust the desired right position
+        zIndex: 9999, // Ensure a high z-index value
       }}
     >
       <CardContent>
@@ -61,7 +72,10 @@ const CategoriesCard = () => {
         <Grid container spacing={1}>
           {categories.map((category) => (
             <Grid item key={category.id}>
-              <Categorie nom={category.nom} onClick={handleCategoryClick} />
+              <Categorie
+                nom={category.nom}
+                onClick={() => handleCategoryClick()}
+              />
             </Grid>
           ))}
         </Grid>

@@ -28,7 +28,7 @@ const Categorie = ({ nom, onClick }) => (
 
 export default function Compo({ data }) {
   if (!data) {
-    return <div>Loading...</div>;
+    return <div>Lwoading...</div>;
   }
 
   const formatDate = (timestamp) => {

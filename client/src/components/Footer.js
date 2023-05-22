@@ -16,7 +16,7 @@ function Footer() {
         width: "100%",
         height: "10vh",
         padding: "0 0 0 15px",
-        // marginBottom: "50px",
+        marginTop: "50px",
       }}
     >
       <Stack direction="row" justifyContent="center" alignItems={"center"}>
