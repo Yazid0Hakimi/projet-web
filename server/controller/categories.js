@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 /* GET categories. */
 
 async function P_getCategories(res) {
-  const allCategories = await prisma.Categorie.findMany();
+  const allCategories = await prisma.Categorie.findMany({
+    include: {
+      articles: true,
+    },
+  });
   res.send(allCategories);
 }
 

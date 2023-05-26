@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
-const Categorie = ({ nom, onClick }) => (
+const Categorie = ({ nom, count, onClick }) => (
   <div
     style={{
       backgroundColor: "#e0e0e0",
@@ -22,6 +22,7 @@ const Categorie = ({ nom, onClick }) => (
   >
     <Typography variant="subtitle2" color="text.primary">
       {nom}
+      <span style={{ fontweight: "bold" , color:"black" }} >  ({count})</span>
     </Typography>
   </div>
 );
@@ -42,20 +43,19 @@ const CategoriesCard = () => {
 
   const handleCategoryClick = (category) => {
     console.log("Clicked category:", category);
-
   };
 
   return (
     <Card
-          sx={{
+      sx={{
         maxWidth: 345,
-        height: "300px",
+        height: "350px",
         borderRadius: "5",
         margin: "100px 3px 0 0 ",
         position: "sticky",
-        top: "10px", // Adjust the desired top position
-        right: "0px", // Adjust the desired right position
-        zIndex: 9999, // Ensure a high z-index value
+        top: "10px", 
+        right: "0px",
+        zIndex: 9999
       }}
     >
       <CardContent>
@@ -74,6 +74,7 @@ const CategoriesCard = () => {
             <Grid item key={category.id}>
               <Categorie
                 nom={category.nom}
+                count={category.articles?.length}
                 onClick={() => handleCategoryClick()}
               />
             </Grid>
