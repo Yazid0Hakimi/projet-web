@@ -1,11 +1,11 @@
-// const { PrismaClient } = require("@prisma/client");
-// const { faker } = require("@faker-js/faker");
+const { PrismaClient } = require("@prisma/client");
+const { faker } = require("@faker-js/faker");
 
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
-// const seed = async () => {
+const seed = async () => {
 //   try {
 //     // Generate 10 users with the "AUTHOR" role
 //     //  for (let i = 0; i < 10; i++) {
@@ -51,7 +51,7 @@
 //       console.log("Created category:", category);
 //     }
 
-//     // Generate 100 articles
+// //     // Generate 100 articles
 //     for (let i = 0; i < 100; i++) {
 //       const randomCategories = await prisma.categorie.findMany({
 //         take:  faker.number.int({ min: 1, max: 4 }),
@@ -63,20 +63,22 @@
 //           role: "AUTHOR",
 //         },
 //       });
-
-//       const article = await prisma.article.create({
-//         data: {
-//           utilisateurId: author.id,
-//           titre: faker.lorem.sentence(),
-//           contenu: faker.lorem.paragraphs(),
-//           image: faker.image.url(),
-//           published: faker.datatype.boolean(),
-//           categories: {
-//             connect: randomCategories.map((category) => ({ id: category.id })),
-//           },
-//         },
-//       });
-//       console.log("Created article:", article);
+    for (let i = 0; i < 20; i++) {
+      const article = await prisma.article.create({
+        data: {
+          utilisateurId: 2,
+          titre: faker.lorem.sentence(),
+          contenu: faker.lorem.paragraphs(),
+          image: faker.image.url(),
+          published: faker.datatype.boolean(),
+          categories: {
+            connect: randomCategories.map((category) => ({ id: category.id })),
+          },
+        },
+      });
+      console.log("article creeted");
+    }
+    //   console.log("Created article:", article);
 
 //       // Generate 0 to 20 comments for each article
 //       const commentCount =  faker.number.int({ min: 0, max: 20 });
@@ -96,6 +98,6 @@
 //   } finally {
 //     await prisma.$disconnect();
 //   }
-// };
+};
 
-// seed();
+seed();

@@ -15,7 +15,6 @@ const categorieRouter = require("./routes/crud/categorie");
 
 // login-registration routes
 const auth = require("./routes/auth/auth");
-const verifyAccessToken = require("./middlewares/verifyToken");
 
 const app = express();
 

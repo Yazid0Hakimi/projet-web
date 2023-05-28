@@ -202,6 +202,23 @@ async function UserArticles(res, take, skip, id) {
       where: {
         utilisateurId: parseInt(id),
       },
+      include: {
+        commentaires: {
+          select: {
+            contenu: true,
+          },
+        },
+        utilisateur: {
+          select: {
+            nom: true,
+          },
+        },
+        categories: {
+          select: {
+            nom: true,
+          },
+        },
+      },
     });
 
     res.json(articles);

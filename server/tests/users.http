@@ -2,9 +2,9 @@ POST  http://localhost:5000/users/ HTTP/1.1
 content-type: application/json
 
 {
-    "email": "alice45s5@prisma.io",
+    "email": "aaaaaaaaa@prisma.io",
     "nom": "Alice",
-    "password": "paassword123",
+    "password": "password123",
     "role": "AUTHOR"
 }
 

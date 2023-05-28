@@ -32,11 +32,17 @@ const login = async (req, res) => {
         { id: UserData._id },
         process.env.ACCESS_TOKEN_SECRET
       );
+      const oneHourInSeconds = 3600;
+
+      const expirationDate = new Date();
+      expirationDate.setTime(
+        expirationDate.getTime() + oneHourInSeconds * 1000
+      ); 
       res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
         sameSite: "lax",
-        maxAge: 3600000,
+        expires: expirationDate,
       });
       res.status(200).json({ user: UserData });
     }

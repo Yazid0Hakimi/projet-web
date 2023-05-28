@@ -5,19 +5,14 @@ const verifyAccessToken = (req, res, next) => {
   if (!req.cookies.accessToken) {
     return res.status(401).send("Unauthorized no token");
   }
-
   const token = req.cookies.accessToken;
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET,
+     (err, payload) => {
     if (err) {
-      // console.log(err);
-      // return res.status(401).send("Unauthorized");
-
       req.user = { payload, autorization: "unauthorized" };
       console.log(req.user);
       next();
     }
-
     req.user = payload;
     console.log(req.user);
     next();
